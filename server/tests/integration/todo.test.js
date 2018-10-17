@@ -47,5 +47,21 @@ describe('/todos', () => {
           return expect(response.body.subject).toEqual('test');
         });
     });
+
+    it('should return a 404 error', () => {
+      return request(app).post(rootPath + '/test').expect(404);
+    });
+  });
+
+  describe('DELETE /', () => {
+    it('should delete a todo', () => {
+      return ToDo.create({
+        subject: 'test',
+      }).then((res) => {
+        return request(app).delete(rootPath + '/' + res.id).expect((response) => {
+          return expect(response.body.delete).toEqual(true);
+        });
+      });
+    });
   });
 });
